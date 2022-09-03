@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reservation.Entities.Exceptions;
+using System;
 
 namespace Reservation.Entities {
     public class ReservationRoom {
@@ -11,6 +12,7 @@ namespace Reservation.Entities {
         public ReservationRoom() { }
 
         public ReservationRoom(int roomNumber, DateTime checkin, DateTime checkout) {
+            if (checkout <= checkin) throw new DomainException("Erro: Chekout deve sair maior que Checkin!");
             RoomNumber = roomNumber;
             CheckIn = checkin;
             CheckOut = checkout;
@@ -22,16 +24,15 @@ namespace Reservation.Entities {
             return (int)duration.TotalDays;
         }
 
-        public string UpdateDates(DateTime checkin, DateTime checkout) {
+        public void UpdateDates(DateTime checkin, DateTime checkout) {
             DateTime now = DateTime.Now;
             if (checkin < now || checkout < now) {
-                return "Erro: Checkin e Checkout devem ser datas futuras!";
+                throw new DomainException("Erro: Checkin e Checkout devem ser datas futuras!");
             } else if (checkout <= checkin) {
-                return "Erro: Chekout deve sair maior que Checkin!";
+                throw new DomainException("Erro: Chekout deve sair maior que Checkin!");
             }
             CheckIn = checkin;
             CheckOut = checkout;
-            return null;
         }
 
         public override string ToString() {
