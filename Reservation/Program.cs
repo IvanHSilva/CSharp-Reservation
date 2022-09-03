@@ -23,15 +23,12 @@ namespace Reservation {
             checkin = DateTime.Parse(Console.ReadLine());
             Console.Write("Checkout (Saída): ");
             checkout = DateTime.Parse(Console.ReadLine());
-            DateTime now = DateTime.Now;
-            if (checkin < now || checkout < now) {
-                Console.WriteLine("Erro: Checkin e Checkout devem ser datas futuras!");
-                return;
-            } else if (checkout <= checkin) {
-                Console.WriteLine("Erro: Chekout deve sair maior que Checkin!");
+           
+            string error = reservation.UpdateDates(checkin, checkout);
+            if (error != null) {
+                Console.WriteLine(error);
                 return;
             }
-            reservation.UpdateDates(checkin, checkout);
             Console.WriteLine(reservation);
             Console.WriteLine();
         }

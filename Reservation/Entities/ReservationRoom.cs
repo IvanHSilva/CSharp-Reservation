@@ -22,9 +22,16 @@ namespace Reservation.Entities {
             return (int)duration.TotalDays;
         }
 
-        public void UpdateDates(DateTime checkin, DateTime checkout) {
+        public string UpdateDates(DateTime checkin, DateTime checkout) {
+            DateTime now = DateTime.Now;
+            if (checkin < now || checkout < now) {
+                return "Erro: Checkin e Checkout devem ser datas futuras!";
+            } else if (checkout <= checkin) {
+                return "Erro: Chekout deve sair maior que Checkin!";
+            }
             CheckIn = checkin;
             CheckOut = checkout;
+            return null;
         }
 
         public override string ToString() {
